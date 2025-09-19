@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediMind AI - Smart EMR for Smarter Healthcare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0a66c2;
+            --secondary-color: #00a896;
+            --accent-color: #f8b500;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --chatbot-color: #0a66c2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--dark-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .cta-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: #0850a0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(10, 102, 194, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 5rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .secondary-button {
+            background-color: transparent;
+            color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .secondary-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .hero-image {
+            position: relative;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard-preview {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .dashboard-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-body {
+            padding: 1rem;
+            height: calc(100% - 60px);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .patient-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 1rem;
+            height: 100%;
+            position: relative;
+        }
+
+        .ai-insight {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .floating-element {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            padding: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            flex-grow: 1;
+        }
+
+        /* Feature Highlight Section */
+        .feature-highlight {
+            padding: 5rem 0;
+            background-color: #f8f9fa;
+        }
+
+        .feature-highlight-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(10, 102, 194, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-icon i {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .highlight-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .highlight-card p {
+            color: #666;
+            flex-grow: 1;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 5rem 0;
+            background-color: #f8f9fa;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            right: 50px;
+            height: 4px;
+            background-color: #ddd;
+            z-index: 0;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 0 1rem;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .step-number::after {
+            content: '';
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 2px dashed var(--primary-color);
+            top: -5px;
+            left: -5px;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .step h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            color: #666;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .benefits-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .benefits-image {
+            position: relative;
+        }
+
+        .benefits-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefits-list li {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .benefits-list i {
+            color: var(--success-color);
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            margin-top: 0.2rem;
+        }
+
+        .benefits-list .benefit-text h4 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefits-list .benefit-text p {
+            color: #666;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 5rem 0;
+            background-color: #f8f9fa;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--secondary-color);
+            opacity: 0.2;
+        }
+
+        .testimonial-text {
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            color: #555;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            margin-right: 1rem;
+        }
+
+        .author-info h4 {
+            font-size: 1rem;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0850a0 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button.light {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        .cta-button.light:hover {
+            background-color: var(--light-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        @media (max-width: 992px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-image {
+                order: -1;
+                height: 400px;
+            }
+
+            .benefits-content {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-image {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-text p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .cta-button, .secondary-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .process-steps {
+                flex-direction: column;
+            }
+
+            .process-steps::before {
+                display: none;
+            }
+
+            .step {
+                margin-bottom: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Demo Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--danger-color);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .success-message {
+            display: none;
+            background-color: var(--success-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--chatbot-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .chatbot-button:hover {
+            background-color: #0850a0;
+            transform: scale(1.05);
+        }
+
+        .chatbot-button i {
+            font-size: 24px;
+        }
+
+        .chatbot-window {
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .chatbot-header {
+            background-color: var(--chatbot-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .chatbot-header h3 i {
+            margin-right: 8px;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            max-width: 80%;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background-color: #f1f1f1;
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--chatbot-color);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chatbot-input-container {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+        }
+
+        .chatbot-send {
+            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--chatbot-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-send:hover {
+            background-color: #0850a0;
+        }
+
+        .chatbot-send i {
+            font-size: 16px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 10px 15px;
+            background-color: #f1f1f1;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 15px;
+            align-self: flex-start;
+            width: auto;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: #999;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .chatbot-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .suggestion-chip {
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-chip:hover {
+            background-color: var(--chatbot-color);
+            color: white;
+            border-color: var(--chatbot-color);
+        }
+
+        @media (max-width: 768px) {
+            .chatbot-window {
+                width: 90%;
+                height: 70%;
+                bottom: 10px;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>MediMind AI</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#" class="cta-button" id="requestDemo">Request Demo</a></li>
+                </ul>
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>AI-Powered EMRs for Smarter Healthcare</h1>
+                    <p>Transform your practice with our intelligent Electronic Medical Records system that not only stores data but actively helps you save time and improve patient outcomes.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="cta-button" id="getStarted">Get Started</a>
+                        <a href="#" class="secondary-button" id="watchDemo">Watch Demo</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="dashboard-preview">
+                        <div class="dashboard-header">
+                            <span>MediMind AI Dashboard</span>
+                            <span><i class="fas fa-user-md"></i> Dr. Smith</span>
+                        </div>
+                        <div class="dashboard-body">
+                            <div class="patient-card">
+                                <div class="ai-insight"><i class="fas fa-lightbulb"></i></div>
+                                <h4>Patient: Johnson, M.</h4>
+                                <p>Age: 45 | Male</p>
+                                <p>Last Visit: 2 weeks ago</p>
+                                <p><strong>AI Summary:</strong> Blood pressure trending upward over last 3 visits. Consider medication adjustment.</p>
+                            </div>
+                            <div class="patient-card">
+                                <div class="ai-insight"><i class="fas fa-exclamation-triangle"></i></div>
+                                <h4>Patient: Williams, S.</h4>
+                                <p>Age: 62 | Female</p>
+                                <p>Last Visit: 1 month ago</p>
+                                <p><strong>AI Alert:</strong> Lab results show elevated glucose levels. Follow-up recommended.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floating-element">
+                        <i class="fas fa-microphone" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+                    </div>
+                    <div class="floating-element">
+                        <i class="fas fa-search" style="color: var(--danger-color); font-size: 1.5rem;"></i>
+                    </div>
+                    <div class="floating-element">
+                        <i class="fas fa-network-wired" style="color: var(--success-color); font-size: 1.5rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Advanced AI Features</h2>
+                <p>Our intelligent EMR system goes beyond traditional records to provide powerful tools that transform clinical practice.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-medical-alt"></i>
+                    </div>
+                    <h3>AI Summaries</h3>
+                    <p>Auto-generate comprehensive clinical notes from patient data, saving time and ensuring accuracy in documentation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Smart Search</h3>
+                    <p>Instantly find patient information, records, and notes with our powerful search functionality across all data sources.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Decision Support</h3>
+                    <p>Receive intelligent alerts about potential risks, drug interactions, and treatment recommendations based on the latest medical research.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>Voice-to-Text</h3>
+                    <p>Dictate notes and instructions hands-free with our accurate voice-to-text transcription, designed for medical terminology.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Interoperability</h3>
+                    <p>Seamlessly connect with labs, pharmacies, and hospitals for integrated patient care and comprehensive health records.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Highlight Section -->
+    <section class="feature-highlight">
+        <div class="container">
+            <div class="section-header">
+                <h2>How Our Features Transform Healthcare</h2>
+                <p>See how MediMind AI's advanced capabilities address real-world clinical challenges.</p>
+            </div>
+            <div class="feature-highlight-content">
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i class="fas fa-file-medical-alt"></i>
+                    </div>
+                    <h3>Clinical Note Generation</h3>
+                    <p>Our AI analyzes patient encounters and automatically generates structured clinical notes, reducing documentation time by up to 70% while maintaining accuracy and compliance.</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Instant Information Access</h3>
+                    <p>Find any patient data in seconds with our natural language search that understands medical terminology and context, eliminating the need to navigate through multiple screens.</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Proactive Care Alerts</h3>
+                    <p>Receive real-time notifications about potential drug interactions, allergy risks, and preventive care opportunities based on comprehensive patient data analysis.</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>Hands-Free Documentation</h3>
+                    <p>Dictate notes during patient encounters with 99% accuracy for medical terminology, allowing you to maintain eye contact and build better patient relationships.</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Seamless Data Exchange</h3>
+                    <p>Connect with external systems through HL7, FHIR, and API integrations, ensuring you have complete patient information regardless of where care was provided.</p>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Security & Compliance</h3>
+                    <p>Enterprise-grade security with HIPAA compliance, end-to-end encryption, and detailed audit logs to protect sensitive patient information at all times.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How MediMind AI Works</h2>
+                <p>Our intelligent system seamlessly integrates into your workflow to enhance patient care.</p>
+            </div>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Data Integration</h3>
+                    <p>Seamlessly import existing patient records or create new ones with our intuitive interface and voice-to-text capabilities.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>AI Analysis</h3>
+                    <p>Our algorithms analyze patient data to identify patterns, trends, and potential issues using advanced machine learning.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Smart Insights</h3>
+                    <p>Receive actionable insights and alerts that help you make informed clinical decisions with decision support tools.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Continuous Learning</h3>
+                    <p>The system learns from each interaction to provide increasingly accurate recommendations and auto-generated summaries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <div class="section-header">
+                <h2>Benefits for Healthcare Providers</h2>
+                <p>Discover how MediMind AI transforms clinical practice and improves patient outcomes.</p>
+            </div>
+            <div class="benefits-content">
+                <div class="benefits-image">
+                    <img src="https://picsum.photos/seed/medimind-doctor/600/400.jpg" alt="Doctor using MediMind AI">
+                </div>
+                <div class="benefits-text">
+                    <ul class="benefits-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div class="benefit-text">
+                                <h4>Save Time on Documentation</h4>
+                                <p>Reduce time spent on paperwork by up to 70% with AI-generated summaries and voice-to-text dictation.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div class="benefit-text">
+                                <h4>Improve Diagnostic Accuracy</h4>
+                                <p>Decision support tools help catch potential issues that might be missed in manual reviews.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div class="benefit-text">
+                                <h4>Enhance Patient Outcomes</h4>
+                                <p>Proactive care based on trend analysis and alerts leads to better health outcomes and patient satisfaction.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div class="benefit-text">
+                                <h4>Streamline Workflow</h4>
+                                <p>Smart search and interoperability features make it easier to manage patient information across systems.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div class="benefit-text">
+                                <h4>Reduce Burnout</h4>
+                                <p>Alleviate administrative burden with AI assistance, helping prevent physician burnout.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Healthcare Professionals Say</h2>
+                <p>Hear from doctors and medical staff who have transformed their practice with MediMind AI.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">The AI-generated summaries have saved me hours each day. I can now focus more on my patients instead of paperwork. The voice-to-text feature is incredibly accurate for medical terminology.</p>
+                    <div class="testimonial-author">
+                        <div class="author-image">DR</div>
+                        <div class="author-info">
+                            <h4>Dr. Rebecca Johnson</h4>
+                            <p>Cardiologist, Heart Health Center</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">The decision support alerts caught a potential drug interaction that I would have missed. This system has become an essential part of my practice, helping me provide safer care.</p>
+                    <div class="testimonial-author">
+                        <div class="author-image">MK</div>
+                        <div class="author-info">
+                            <h4>Dr. Michael Kim</h4>
+                            <p>Endocrinologist, Diabetes Care Clinic</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Being able to search for any patient information instantly has transformed our workflow. The interoperability features mean we have complete patient records regardless of where they received care.</p>
+                    <div class="testimonial-author">
+                        <div class="author-image">ST</div>
+                        <div class="author-info">
+                            <h4>Sarah Thompson</h4>
+                            <p>Practice Manager, Family Medical Center</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Transform Your Practice?</h2>
+            <p>Join hundreds of healthcare providers who are already saving time and improving patient outcomes with MediMind AI.</p>
+            <a href="#" class="cta-button light" id="requestDemoBtn">Request a Demo Today</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>MediMind AI</h3>
+                    <p>Intelligent Electronic Medical Records system designed to save time and improve patient outcomes.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 MediMind AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Demo Request Modal -->
+    <div class="modal" id="demoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Request a Demo</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message" id="successMessage">
+                    Thank you for your interest! We'll contact you shortly to schedule your demo.
+                </div>
+                <form id="demoForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="organization">Organization</label>
+                        <input type="text" id="organization" name="organization" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select id="role" name="role" required>
+                            <option value="">Select your role</option>
+                            <option value="physician">Physician</option>
+                            <option value="nurse">Nurse</option>
+                            <option value="administrator">Administrator</option>
+                            <option value="it">IT Professional</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Additional Information</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your practice and what you're looking for in an EMR system..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="secondary-button" id="cancelBtn">Cancel</button>
+                <button type="submit" class="cta-button" form="demoForm">Submit Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <h3><i class="fas fa-robot"></i> MediMind Assistant</h3>
+                <button class="chatbot-close" id="chatbotClose">&times;</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot">Hello! I'm the MediMind AI assistant. How can I help you today?</div>
+                <div class="chatbot-suggestions">
+                    <div class="suggestion-chip">How does it work?</div>
+                    <div class="suggestion-chip">AI Summaries</div>
+                    <div class="suggestion-chip">Voice-to-Text</div>
+                    <div class="suggestion-chip">Request demo</div>
+                </div>
+            </div>
+            <div class="chatbot-input-container">
+                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message...">
+                <button class="chatbot-send" id="chatbotSend">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <button class="chatbot-button" id="chatbotButton">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
+
+    <script>
+        // Demo Modal Functionality
+        const demoModal = document.getElementById('demoModal');
+        const requestDemo = document.getElementById('requestDemo');
+        const requestDemoBtn = document.getElementById('requestDemoBtn');
+        const getStarted = document.getElementById('getStarted');
+        const closeModal = document.getElementById('closeModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const demoForm = document.getElementById('demoForm');
+        const successMessage = document.getElementById('successMessage');
+
+        function openModal() {
+            demoModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModalFunc() {
+            demoModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            demoForm.reset();
+            successMessage.style.display = 'none';
+        }
+
+        requestDemo.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+
+        requestDemoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+
+        getStarted.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+
+        closeModal.addEventListener('click', closeModalFunc);
+        cancelBtn.addEventListener('click', closeModalFunc);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === demoModal) {
+                closeModalFunc();
+            }
+        });
+
+        demoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Simulate form submission
+            successMessage.style.display = 'block';
+            demoForm.style.display = 'none';
+            
+            // Reset and close modal after 3 seconds
+            setTimeout(() => {
+                closeModalFunc();
+                demoForm.style.display = 'block';
+            }, 3000);
+        });
+
+        // Watch Demo Button
+        const watchDemo = document.getElementById('watchDemo');
+        watchDemo.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Demo video would open here. In a real implementation, this would open a video player or redirect to a demo page.');
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.backgroundColor = 'white';
+                navLinks.style.padding = '1rem';
+                navLinks.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href') !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        if (navLinks.style.display === 'flex') {
+                            navLinks.style.display = 'none';
+                        }
+                    }
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards and testimonial cards
+        document.querySelectorAll('.feature-card, .testimonial-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+
+        // Chatbot Functionality
+        const chatbotButton = document.getElementById('chatbotButton');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotClose = document.getElementById('chatbotClose');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotSend = document.getElementById('chatbotSend');
+
+        // Chatbot responses
+        const botResponses = {
+            "how does it work": "MediMind AI uses advanced machine learning algorithms to analyze patient data, identify trends, and provide actionable insights. It integrates seamlessly with your existing workflow and continuously learns from each interaction to improve its recommendations.",
+            "pricing": "We offer flexible pricing plans tailored to practices of all sizes. Our basic plan starts at $99 per month per provider, with enterprise solutions available for larger organizations. Would you like me to connect you with our sales team for a custom quote?",
+            "security": "Security is our top priority. MediMind AI is HIPAA compliant, uses end-to-end encryption for all data, and undergoes regular security audits. We also provide role-based access controls and detailed audit logs to ensure patient data is always protected.",
+            "request demo": "I'd be happy to help you request a demo! Clicking the 'Request Demo' button will open a form where you can provide your details. Our team will then contact you to schedule a personalized demonstration of MediMind AI.",
+            "features": "MediMind AI offers several key features: efficient record management, quick patient summaries, trend detection, AI-powered insights, security and compliance, and mobile access. Would you like more details about any specific feature?",
+            "integration": "MediMind AI integrates with most major EMR systems and can import data from various sources. We also offer API access for custom integrations with your existing healthcare IT infrastructure.",
+            "support": "We provide 24/7 customer support via phone, email, and chat. All plans include onboarding assistance, training resources, and access to our knowledge base. Enterprise customers also receive a dedicated account manager.",
+            "ai summaries": "Our AI Summaries feature automatically generates comprehensive clinical notes from patient data, saving time and ensuring accuracy in documentation. It reduces documentation time by up to 70% while maintaining accuracy and compliance.",
+            "smart search": "Smart Search allows you to instantly find patient information, records, and notes with our powerful search functionality. It understands medical terminology and context, eliminating the need to navigate through multiple screens.",
+            "decision support": "Our Decision Support system provides intelligent alerts about potential risks, drug interactions, and treatment recommendations based on the latest medical research. It helps catch potential issues that might be missed in manual reviews.",
+            "voice-to-text": "Our Voice-to-Text feature allows doctors to dictate notes hands-free with 99% accuracy for medical terminology. This enables you to maintain eye contact and build better patient relationships while documenting.",
+            "interoperability": "MediMind AI seamlessly connects with labs, pharmacies, and hospitals through HL7, FHIR, and API integrations. This ensures you have complete patient information regardless of where care was provided.",
+            "default": "I'm not sure I understand. Could you please rephrase your question? You can also ask me about how MediMind AI works, pricing, security features, or request a demo."
+        };
+
+        // Open/close chatbot
+        chatbotButton.addEventListener('click', () => {
+            chatbotWindow.style.display = 'flex';
+            chatbotButton.style.display = 'none';
+            chatbotInput.focus();
+        });
+
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.style.display = 'none';
+            chatbotButton.style.display = 'flex';
+        });
+
+        // Send message
+        function sendMessage() {
+            const message = chatbotInput.value.trim();
+            if (message === '') return;
+
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.textContent = message;
+            chatbotMessages.appendChild(userMessage);
+
+            // Clear input
+            chatbotInput.value = '';
+
+            // Show typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+            chatbotMessages.appendChild(typingIndicator);
+
+            // Scroll to bottom
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+            // Generate bot response after delay
+            setTimeout(() => {
+                // Remove typing indicator
+                chatbotMessages.removeChild(typingIndicator);
+
+                // Get bot response
+                const lowerMessage = message.toLowerCase();
+                let response = botResponses.default;
+
+                // Check for keywords
+                for (const key in botResponses) {
+                    if (lowerMessage.includes(key)) {
+                        response = botResponses[key];
+                        break;
+                    }
+                }
+
+                // Add bot message
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot';
+                botMessage.textContent = response;
+                chatbotMessages.appendChild(botMessage);
+
+                // Add suggestions after certain responses
+                if (lowerMessage.includes('pricing') || lowerMessage.includes('features')) {
+                    const suggestionsContainer = document.createElement('div');
+                    suggestionsContainer.className = 'chatbot-suggestions';
+                    
+                    if (lowerMessage.includes('pricing')) {
+                        suggestionsContainer.innerHTML = `
+                            <div class="suggestion-chip">Basic plan</div>
+                            <div class="suggestion-chip">Enterprise</div>
+                            <div class="suggestion-chip">Request demo</div>
+                        `;
+                    } else if (lowerMessage.includes('features')) {
+                        suggestionsContainer.innerHTML = `
+                            <div class="suggestion-chip">AI insights</div>
+                            <div class="suggestion-chip">Trend detection</div>
+                            <div class="suggestion-chip">Mobile access</div>
+                        `;
+                    }
+                    
+                    chatbotMessages.appendChild(suggestionsContainer);
+                }
+
+                // Scroll to bottom
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }, 1000);
+        }
+
+        chatbotSend.addEventListener('click', sendMessage);
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Handle suggestion chips
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('suggestion-chip')) {
+                chatbotInput.value = e.target.textContent;
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
